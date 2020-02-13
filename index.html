@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+  <head>
+    <link data-require="bootstrap-css@3.3.6" data-semver="3.3.6" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" />
+    <script data-require="angularjs@1.5.7" data-semver="1.5.7" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
+    <script src="directives.js"></script>
+  </head>
+
+  <body ng-app="todoApp" ng-controller="TodoCtrl">
+    <!--<h1>TodoList </h1>-->
+    <todo-title></todo-title>
+    <!--{{todo}}
+    <h3>{{todo.title}}</h3>
+    <p>{{todo.completed}}</p>
+    <date>{{todo.createdAt}}</date>-->
+    <form name="todoForm" ng-submit="add(newTodoTitle)">
+      <div class="input-group">
+        <input type="text" ng-model="newTodoTitle" class="form-control" placeholder="새로운 투두를 입력하세요" autofocus minlength="3">
+        <span class="input-group-btn">
+          <button class="btn btn-success" type="submit">추가</button>
+        </span>
+      </div>
+      <div ng-show="todoForm.$dirty && todoForm.$invalid">
+        <div class="alert alert-warning" role="alert">세 글자 이상 입력하세요</div>
+      </div>
+    </form>
+    
+    <pre>{{todoForm | json}}</pre>
+    
+    <ul class="list-unstyled">
+      <li ng-repeat="todo in todos | filter:statusFilter">
+        <div class="input-group">
+          <span class="input-group-addon">
+            <input type="checkbox" ng-model="todo.completed" aria-label="...">
+          </span>
+          <input type="text" ng-model="todo.title" class="form-control" placeholder="Search for...">
+          <span class="input-group-btn">
+            <button class="btn btn-danger" type="button" ng-click="remove(todo)">Delete</button>
+          </span>
+        </div><!-- /input-group -->
+        <date>{{todo.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}}</date>
+      </li>
+    </ul>
+    <button class="btn btn-primary" ng-click="statusFilter={completed:true}">Completed</button>
+    <button class="btn btn-primary" ng-click="statusFilter={completed:false}">Active</button>
+    <button class="btn btn-primary" ng-click="statusFilter={}">All</button>
+  </body>
+</html>
